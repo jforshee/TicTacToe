@@ -11,7 +11,7 @@ class MinimaxNode
 		~MinimaxNode();
 
 		int minimax(int iDepth);
-		Game* getChild();
+		Game* getChild(int &x, int &y);
 
 	private:
 		Game*	m_pGameState;

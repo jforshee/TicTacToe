@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <vector>
 #include <ctime>
 
 #include "game.h"
@@ -55,6 +56,7 @@ void playRandom()
 		int x, y;
 		start.randomOpenSquare(x, y);
 		start.setX(x, y);
+		std::cout << "Computer's move: (" << x << ", " << y << ")\n";
 		std::cout << start.toString();
 		if (start.gameOver()) break;
 
@@ -65,7 +67,7 @@ void playRandom()
 			std::cin >> x >> y;
 		}
 		start.setO(x, y);
-		std::cout << start.toString();
+		std::cout << "Your move: (" << x << ", " << y << ")\n";
 	}
 	std::cout << start.whoWon() << std::endl;
 }
@@ -81,13 +83,14 @@ void playMinimax()
 	Game *start = new Game();
 
 	while (!(start->gameOver())) {
+		int x, y;
 		MinimaxNode node(start);
 		node.minimax(2);
-		start = node.getChild();
-		std::cout << "Computer's move:\n" << start->toString();
+		start = node.getChild(x, y);
+		std::cout << "Computer's move: (" << x << ", " << y << ")\n";
+		std::cout << start->toString();
 		if (start->gameOver()) break;
 
-		int x, y;
 		std::cout << "Place? ";
 		std::cin >> x >> y;
 		while (x < 0 || x > 4 || y < 0 || y > 4) {
@@ -95,7 +98,7 @@ void playMinimax()
 			std::cin >> x >> y;
 		}
 		start->setO(x, y);
-		std::cout << "Player's move:\n" << start->toString();
+		std::cout << "Your move: (" << x << ", " << y << ")\n";
 	}
 }
 

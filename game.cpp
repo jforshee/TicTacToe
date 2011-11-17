@@ -47,9 +47,9 @@ Game::~Game()
 /*
  * Gets the board representation for this game.
  */
-std::vector<std::vector<int>*> Game::getBoard()
+std::vector<std::vector<int>*>* Game::getBoard()
 {
-	return *m_pvBoard;
+	return m_pvBoard;
 }
 
 /*
@@ -157,8 +157,17 @@ bool Game::gameOver()
 		return true;
 	}
 
-	delete temp;
-	return false;
+	/* Check if all squares have been filled (draw) */
+	for (unsigned int i = 0; i < m_pvBoard->size(); i++) {
+		std::vector<int> *pvRow = m_pvBoard->at(i);
+		for (unsigned int j = 0; j < pvRow->size(); j++)
+			/* If a single square is empty, we are not done */
+			if (pvRow->at(j) == 0) return false;
+	}
+
+	/* No one has won, all squares filled, game is a draw */
+	m_iLastMove = 0;
+	return true;
 }
 
 /*
@@ -260,13 +269,17 @@ std::vector<Game*> Game::generateChildren()
 }
 
 /*
- * Returns a string describing the winner of the game.
+ * Returns a string describing the winner of the game, if there is one.
  */
 const char* Game::whoWon()
 {
 	if (!gameOver()) return NULL;
-	return (m_iLastMove == -1) ? "The player wins!"
-							   : "The computer wins!";
+	switch(m_iLastMove) {
+	case -1:	return "The player wins!";
+	case 0:		return "It's a draw!";
+	case 1:		return "The computer wins!";
+	default:	return NULL;
+	}
 }
 
 /*

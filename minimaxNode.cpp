@@ -1,5 +1,6 @@
 
 #include <algorithm>
+#include <vector>
 #include "minimaxNode.h"
 
 /*
@@ -45,11 +46,22 @@ int MinimaxNode::minimax(int iDepth)
 }
 
 /*
- * Returns the child node corresponding to this node's minimax value.
+ * Returns the child node corresponding to this node's minimax value. The x and
+ * y coordinates of the chosen move are returned by output parameters.
  */
-Game* MinimaxNode::getChild()
+Game* MinimaxNode::getChild(int &x, int &y)
 {
 	std::vector<Game*> vChildren = m_pGameState->generateChildren();
+	Game *child = vChildren[m_iIndex];
+	std::vector<std::vector<int>*> *pChildBoard, *pThisBoard;
+	pChildBoard = child->getBoard();
+	pThisBoard = m_pGameState->getBoard();
+	for (unsigned int i = 0; i < pThisBoard->size(); i++)
+		for (unsigned int j = 0; j < pThisBoard->at(i)->size(); j++)
+			if (pThisBoard->at(i)->at(j) != pChildBoard->at(i)->at(j)) {
+				x = j;
+				y = i;
+			}
 	return vChildren[m_iIndex];
 }
 

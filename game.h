@@ -11,7 +11,7 @@ class Game
 		Game(const Game &other);
 		~Game();
 
-		std::vector<std::vector<int>*> getBoard();
+		std::vector<std::vector<int>*>* getBoard();
 		bool isOpen(int x, int y);
 		void setX(int x, int y);
 		void setO(int x, int y);
