@@ -31,17 +31,16 @@ int MinimaxNode::minimax(int iDepth)
 	if (iDepth <= 0)
 		return m_pGameState->heuristic();
 
-	int alpha = -1000, index;
+	int alpha = -1000;
 	std::vector<Game*> vChildren = m_pGameState->generateChildren();
 	for (unsigned int i = 0; i < vChildren.size(); i++) {
 		MinimaxNode node(vChildren[i]);
 		int lastAlpha = alpha;
 		alpha = std::max(alpha, -1 * node.minimax(iDepth - 1));
 		if (alpha != lastAlpha)
-			index = i;
+			m_iIndex = i;
 	}
 
-	m_iIndex = index;
 	return alpha;
 }
 

@@ -6,6 +6,7 @@
 
 #include "game.h"
 #include "minimaxNode.h"
+#include "expectimaxNode.h"
 
 void playRandom();
 void playMinimax();
@@ -100,9 +101,26 @@ void playMinimax()
 		start->setO(x, y);
 		std::cout << "Your move: (" << x << ", " << y << ")\n";
 	}
+	std::cout << start->whoWon() << std::endl;
 }
 
 void watchExpectimaxVRandom()
 {
+	Game *start = new Game();
+	srand((unsigned) time(0));
+
+	while (!(start->gameOver())) {
+		int x, y;
+		ExpectimaxNode node(start);
+		node.expectimax(2, true);
+		start = node.getChild(x, y);
+		std::cout << "Expectimax's move: (" << x << ", " << y << ")\n";
+		if (start->gameOver()) break;
+		
+		start->randomOpenSquare(x, y);
+		start->setX(x, y);
+		std::cout << "Random's move: (" << x << ", " << y << ")\n";
+	}
+	std::cout << start->whoWon() << std::endl;
 }
 
