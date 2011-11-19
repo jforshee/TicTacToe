@@ -15,7 +15,7 @@ Game::Game(int iSize)
 		for (int j = 0; j < iSize; j++)
 			m_pvBoard->at(i)->at(j) = 0;
 	}
-	m_iLastMove = -1;		/* X moves first */
+	m_iLastMove = 1;		/* O moves first */
 	m_piHeuristic = NULL;
 }
 
@@ -133,7 +133,7 @@ bool Game::gameOver()
 	for (unsigned int i = 0; i < m_pvBoard->size(); i++) {
 		std::vector<int> *temp = new std::vector<int>(m_pvBoard->size());
 		for (unsigned int j = 0; j < m_pvBoard->size(); j++)
-			temp->at(j) = m_pvBoard->at(i)->at(j);
+			temp->at(j) = m_pvBoard->at(j)->at(i);
 		bool bDone = (allEqual(temp) && temp->at(0) != 0);
 		delete temp;
 		if (bDone) return true;
